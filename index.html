@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tripoli Houston Rocket Club</title>
+<meta name="description" content="Tripoli Houston, Tripoli prefecture 002 and NAR Section 916. Monthly model and high power rocket launches at Hearne Municipal Airport and our members-only South Site near Alvin, Texas.">
+<style>
+@font-face{
+  font-family:"Archivo"; font-style:normal; font-display:swap;
+  font-weight:100 900; font-stretch:62% 125%;
+  src:url(assets/archivo.woff2) format("woff2");
+}
+:root{
+  --red:#C00000;        /* sampled from the club logo */
+  --red-deep:#930000;
+  --black:#141414;
+  --ink:#1B1B1B;
+  --muted:#575757;
+  --paper:#FFFFFF;
+  --stone:#F1F1EF;
+  --line:#DCDCD8;
+  --gutter:clamp(20px,4.5vw,56px);
+  --font:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; scroll-padding-top:84px; }
+body{ margin:0; background:var(--paper); color:var(--ink); font:400 1.0625rem/1.6 var(--font); font-stretch:100%; -webkit-font-smoothing:antialiased; }
+img,video{ display:block; max-width:100%; height:auto; }
+a{ color:inherit; text-underline-offset:.2em; text-decoration-thickness:1px; }
+a:hover{ text-decoration-thickness:2px; }
+:focus-visible{ outline:3px solid var(--red); outline-offset:3px; }
+p{ margin:0 0 1em; }
+h1,h2,h3{ margin:0; font-weight:800; line-height:1.02; letter-spacing:-.01em; }
+.wrap{ max-width:1200px; margin-inline:auto; padding-inline:var(--gutter); }
+.skip{ position:absolute; left:-9999px; top:8px; z-index:200; background:#fff; padding:.6em 1em; }
+.skip:focus{ left:8px; }
+
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:.5em; min-height:48px; padding:.8em 1.4em; border:2px solid transparent; border-radius:2px;
+  font:700 1rem/1 var(--font); text-decoration:none; cursor:pointer; transition:background-color .15s, color .15s, border-color .15s; }
+.btn:hover{ text-decoration:none; }
+.btn-red{ background:var(--red); color:#fff; }
+.btn-red:hover{ background:var(--red-deep); }
+.btn-white{ background:#fff; color:var(--black); }
+.btn-white:hover{ background:#E9E9E9; }
+.btn-ghost{ border-color:currentColor; color:inherit; background:transparent; }
+.btn-ghost:hover{ background:rgba(255,255,255,.12); }
+.on-light .btn-ghost:hover{ background:rgba(0,0,0,.05); }
+.actions{ display:flex; flex-wrap:wrap; gap:12px; }
+
+.sec{ padding:clamp(64px,9vw,112px) 0; }
+.sec-stone{ background:var(--stone); }
+.sec-dark{ background:var(--black); color:#fff; }
+.h2{ font-size:clamp(2.1rem,4.4vw,3.5rem); font-stretch:108%; margin-bottom:.45em; max-width:20ch; }
+.lead{ font-size:1.18rem; color:var(--muted); max-width:60ch; }
+.sec-dark .lead{ color:#BDBDBD; }
+.credit{ font-size:.82rem; color:var(--muted); margin-top:8px; }
+.sec-dark .credit{ color:#A8A8A8; }
+
+/* ---------- utility bar + header ---------- */
+.util{ background:var(--black); color:#E6E6E6; font-size:.86rem; }
+.util .wrap{ display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:38px; }
+.util-next b{ color:#fff; font-weight:600; }
+.util-links{ display:flex; gap:18px; list-style:none; margin:0; padding:0; }
+.util-links a{ text-decoration:none; }
+.util-links a:hover{ text-decoration:underline; }
+@media (max-width:700px){ .util-links{ display:none; } }
+
+.head{ position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--line); }
+.head .wrap{ display:flex; align-items:center; gap:28px; min-height:76px; }
+.brand{ display:block; margin-right:auto; }
+.brand img{ height:46px; width:auto; }
+.nav{ display:flex; gap:26px; list-style:none; margin:0; padding:0; font-weight:600; font-size:.98rem; }
+.nav a{ text-decoration:none; padding:6px 0; border-bottom:2px solid transparent; }
+.nav a:hover{ border-bottom-color:var(--red); }
+.menu-btn{ display:none; min-height:44px; padding:0 14px; border:2px solid var(--black); background:#fff; border-radius:2px; font:700 .95rem var(--font); cursor:pointer; }
+@media (max-width:980px){
+  .head .wrap{ flex-wrap:wrap; gap:12px; min-height:68px; }
+  .brand img{ height:38px; }
+  .head .btn{ display:none; }
+  .menu-btn{ display:inline-block; }
+  .nav{ display:none; width:100%; flex-direction:column; gap:0; padding-bottom:10px; }
+  .head.open .nav{ display:flex; }
+  .nav a{ display:block; padding:13px 0; border-bottom:1px solid var(--line); }
+}
+
+/* ---------- hero: wall of the club's own launch footage ---------- */
+.hero{ position:relative; height:calc(100svh - 114px); min-height:560px; max-height:960px; background:#000; color:#fff; overflow:hidden; }
+.wall{ position:absolute; inset:0; display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+.wall video{ width:100%; height:100%; object-fit:cover; }
+.shade{ position:absolute; inset:0; pointer-events:none;
+  background:
+    linear-gradient(to top, rgba(0,0,0,.86) 0%, rgba(0,0,0,.55) 34%, rgba(0,0,0,.08) 70%),
+    linear-gradient(to right, rgba(0,0,0,.45), rgba(0,0,0,0) 60%); }
+.hero-copy{ position:absolute; left:0; right:0; bottom:clamp(36px,7vh,80px); }
+.hero h1{ font-size:clamp(2.9rem,min(7vw,11vh),6.3rem); font-stretch:118%; font-weight:850; line-height:.9; text-transform:uppercase; letter-spacing:-.015em; margin-bottom:.32em; text-shadow:0 2px 24px rgba(0,0,0,.35); }
+.hero h1 span{ display:block; }
+.hero-sub{ font-size:clamp(1.05rem,1.6vw,1.3rem); max-width:44ch; color:#EDEDED; margin-bottom:1.4em; }
+.wall-ctrl{ position:absolute; right:var(--gutter); bottom:clamp(36px,7vh,80px); display:flex; align-items:center; gap:12px; }
+.wall-ctrl p{ margin:0; font-size:.8rem; color:#CFCFCF; text-align:right; max-width:22ch; line-height:1.35; }
+.wall-btn{ width:48px; height:48px; border-radius:50%; border:2px solid rgba(255,255,255,.85); background:rgba(0,0,0,.35); color:#fff; cursor:pointer; display:grid; place-items:center; }
+.wall-btn:hover{ background:rgba(0,0,0,.6); }
+.wall-btn svg{ width:18px; height:18px; fill:currentColor; }
+.wall-btn .i-play{ display:none; }
+.hero.paused .wall-btn .i-play{ display:block; }
+.hero.paused .wall-btn .i-pause{ display:none; }
+@media (max-width:760px){
+  .wall{ grid-template-columns:1fr; }
+  .wall video:not(.lead-clip){ display:none; }
+  .hero{ height:calc(100svh - 106px); }
+  .wall-ctrl{ top:16px; bottom:auto; }
+  .wall-ctrl p{ display:none; }
+}
+
+/* ---------- next launch band ---------- */
+.band{ background:var(--red); color:#fff; }
+.band .wrap{ display:grid; grid-template-columns:auto 1fr auto auto; align-items:center; gap:clamp(16px,3vw,40px); min-height:96px; padding-block:16px; }
+.band-k{ font-weight:700; font-size:.92rem; display:flex; align-items:center; gap:10px; white-space:nowrap; }
+.band-k i{ width:10px; height:10px; border-radius:50%; background:#fff; animation:beacon 2s ease-out infinite; }
+@keyframes beacon{ 0%{ box-shadow:0 0 0 0 rgba(255,255,255,.7); } 70%,100%{ box-shadow:0 0 0 12px rgba(255,255,255,0); } }
+.band-what b{ display:block; font-size:clamp(1.25rem,2vw,1.6rem); font-stretch:108%; font-weight:800; line-height:1.1; }
+.band-what span{ font-size:.98rem; color:#FFE3E3; }
+.clock{ display:flex; gap:14px; font-variant-numeric:tabular-nums; }
+.clock .u{ text-align:center; }
+.clock .u[hidden]{ display:none; }
+.clock b{ display:block; font-size:clamp(1.8rem,3vw,2.5rem); font-weight:800; font-stretch:90%; line-height:1; }
+.clock i{ font-style:normal; font-size:.74rem; color:#FFE3E3; }
+@media (max-width:900px){
+  .band .wrap{ grid-template-columns:1fr auto; }
+  .band-k{ grid-column:1 / -1; }
+}
+@media (max-width:520px){
+  .band .wrap{ grid-template-columns:1fr; }
+}
+
+/* ---------- quick links ---------- */
+.notice{ background:#FFF1F1; border-bottom:1px solid #F3C9C9; box-shadow:inset 4px 0 0 var(--red); }
+.notice p{ margin:0; padding:12px 0; font-weight:600; }
+.notice p + p{ border-top:1px solid #F3C9C9; }
+.notice a{ color:var(--red); margin-left:6px; }
+.quick{ background:var(--stone); border-bottom:1px solid var(--line); }
+.quick ul{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(6,1fr); }
+.quick li + li{ border-left:1px solid var(--line); }
+.quick a{ display:block; padding:22px 18px; text-decoration:none; font-weight:700; font-size:.98rem; line-height:1.25; }
+.quick a small{ display:block; font-weight:400; font-size:.84rem; color:var(--muted); margin-top:4px; }
+.quick a:hover{ background:#fff; color:var(--red); }
+@media (max-width:980px){ .quick ul{ grid-template-columns:repeat(3,1fr); } .quick li:nth-child(4){ border-left:0; } .quick li:nth-child(n+4){ border-top:1px solid var(--line); } }
+@media (max-width:560px){ .quick ul{ grid-template-columns:1fr 1fr; } .quick li{ border-left:0 !important; border-top:1px solid var(--line); } .quick li:nth-child(even){ border-left:1px solid var(--line) !important; } .quick li:nth-child(-n+2){ border-top:0; } }
+
+/* ---------- about ---------- */
+.about{ display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:clamp(36px,6vw,88px); align-items:start; }
+.about p{ color:#333; max-width:58ch; }
+.facts{ display:grid; grid-template-columns:1fr 1fr; gap:0; margin:28px 0 0; border-top:3px solid var(--black); }
+.facts div{ padding:14px 0 14px; border-bottom:1px solid var(--line); }
+.facts div:nth-child(odd){ padding-right:16px; }
+.facts dt{ font-size:.82rem; color:var(--muted); }
+.facts dd{ margin:2px 0 0; font-size:1.35rem; font-weight:800; font-stretch:104%; line-height:1.15; }
+.about figure{ margin:0; }
+.about figure img{ width:100%; aspect-ratio:4/5; object-fit:cover; }
+@media (max-width:860px){ .about{ grid-template-columns:1fr; } }
+
+/* ---------- schedule ---------- */
+.sched-wrap{ margin-top:28px; background:#fff; border:1px solid var(--line); }
+.sched{ width:100%; border-collapse:collapse; }
+.sched th, .sched td{ text-align:left; vertical-align:top; padding:14px 18px; border-bottom:1px solid var(--line); }
+.sched thead th{ background:var(--black); color:#fff; font-size:.92rem; font-weight:600; }
+.sched thead th b{ display:block; font-size:1.15rem; font-weight:800; }
+.sched tbody th{ font-weight:700; width:24%; }
+.sched td{ width:38%; position:relative; }
+.sched .d{ font-weight:800; font-size:1.3rem; font-stretch:104%; }
+.sched .n{ display:block; font-size:.9rem; color:var(--muted); }
+.sched .none{ color:#9A9A9A; }
+.sched .strike{ text-decoration:line-through; text-decoration-color:var(--red); text-decoration-thickness:2px; }
+.sched tr.is-past th, .sched td.is-past{ color:#9A9A9A; }
+.sched td.is-past .n{ color:#AFAFAF; }
+.sched td.is-next{ background:#FFF1F1; box-shadow:inset 4px 0 0 var(--red); }
+.sched .tag{ display:inline-block; margin-left:8px; vertical-align:3px; padding:4px 8px; background:var(--red); color:#fff; font-size:.74rem; font-weight:700; border-radius:2px; }
+.sched-note{ margin-top:18px; color:var(--muted); max-width:66ch; font-size:.96rem; }
+@media (max-width:640px){
+  .sched thead{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+  .sched tbody tr{ display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid var(--line); }
+  .sched tbody th{ grid-column:1 / -1; width:auto; border:0; padding-bottom:4px; }
+  .sched td{ width:auto; border:0; padding-top:4px; }
+  .sched td::before{ content:attr(data-label); display:block; font-size:.76rem; color:var(--muted); }
+}
+
+/* ---------- fields ---------- */
+.fields{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,4vw,48px); margin-top:32px; }
+.field figure{ margin:0 0 20px; position:relative; }
+.field figure img{ width:100%; aspect-ratio:3/2; object-fit:cover; }
+.ceil{ position:absolute; left:0; bottom:0; background:var(--red); color:#fff; padding:10px 14px 9px; }
+.ceil b{ display:block; font-size:1.7rem; font-weight:850; font-stretch:110%; line-height:1; }
+.ceil span{ font-size:.8rem; }
+.field h3{ font-size:clamp(1.6rem,2.4vw,2.1rem); font-stretch:106%; margin-bottom:4px; }
+.field .addr{ color:var(--muted); margin-bottom:14px; }
+.field dl{ margin:0 0 18px; display:grid; gap:10px; }
+.field dt{ font-size:.8rem; color:var(--muted); }
+.field dd{ margin:0; font-weight:600; }
+.field .links{ display:flex; flex-wrap:wrap; gap:18px; font-weight:700; }
+.day{ margin-top:clamp(48px,6vw,72px); display:grid; grid-template-columns:minmax(0,.6fr) minmax(0,1.4fr); gap:clamp(20px,4vw,56px); border-top:3px solid var(--black); padding-top:20px; }
+.day h3{ font-size:1.7rem; font-stretch:106%; }
+.day ul{ margin:0; padding:0; list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:12px 32px; }
+.day li{ padding-left:20px; position:relative; }
+.day li::before{ content:""; position:absolute; left:0; top:.62em; width:10px; height:3px; background:var(--red); }
+@media (max-width:860px){ .fields, .day{ grid-template-columns:1fr; } .day ul{ grid-template-columns:1fr; } }
+
+/* ---------- gallery ---------- */
+.mosaic{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); grid-auto-rows:clamp(150px,16vw,230px); gap:6px; margin-top:32px; }
+.mosaic a{ position:relative; display:block; overflow:hidden; background:#222; text-decoration:none; }
+.mosaic img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+.mosaic a:hover img{ transform:scale(1.035); }
+.mosaic .cap{ position:absolute; left:0; right:0; bottom:0; padding:22px 12px 10px; font-size:.8rem; font-weight:600; color:#fff; background:linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,0)); }
+.m-big{ grid-column:span 2; grid-row:span 2; }
+.m-tall{ grid-row:span 2; }
+.m-wide{ grid-column:span 2; }
+@media (max-width:760px){ .mosaic{ grid-template-columns:1fr 1fr; grid-auto-rows:170px; } }
+.gal-foot{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:14px 24px; margin-top:20px; }
+.gal-foot p{ margin:0; color:#A8A8A8; font-size:.92rem; }
+
+/* ---------- fly with us ---------- */
+.steps{ list-style:none; margin:32px 0 0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(20px,3vw,40px); counter-reset:s; }
+.steps li{ counter-increment:s; border-top:3px solid var(--black); padding-top:16px; }
+.steps li::before{ content:counter(s); display:inline-grid; place-items:center; width:40px; height:40px; background:var(--red); color:#fff; font-weight:800; font-size:1.2rem; margin-bottom:14px; }
+.steps h3{ font-size:1.4rem; font-stretch:104%; margin-bottom:8px; }
+.steps p{ color:#3A3A3A; font-size:1rem; }
+.steps .links{ display:flex; flex-wrap:wrap; gap:16px; font-weight:700; }
+.cert{ margin-top:clamp(48px,6vw,80px); display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); background:var(--black); color:#fff; }
+.cert img{ width:100%; height:100%; object-fit:cover; min-height:320px; }
+.cert-body{ padding:clamp(28px,4vw,56px); align-self:center; }
+.cert h3{ font-size:clamp(1.8rem,3vw,2.6rem); font-stretch:106%; margin-bottom:14px; max-width:18ch; }
+.cert p{ color:#CFCFCF; max-width:50ch; }
+.cert .credit{ margin:0; padding:8px 12px; }
+@media (max-width:860px){ .steps{ grid-template-columns:1fr; } .cert{ grid-template-columns:1fr; } .cert img{ aspect-ratio:4/3; min-height:0; } }
+
+/* ---------- membership ---------- */
+.perks{ list-style:none; margin:0 0 28px; padding:0; display:flex; flex-wrap:wrap; gap:10px 28px; font-weight:600; }
+.perks li{ padding-left:20px; position:relative; }
+.perks li::before{ content:""; position:absolute; left:0; top:.62em; width:10px; height:3px; background:var(--red); }
+.tiers{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0; background:#fff; border:1px solid var(--line); margin-bottom:28px; }
+.tier{ padding:26px 26px 28px; }
+.tier + .tier{ border-left:1px solid var(--line); }
+.tier h3{ font-size:1.7rem; font-stretch:106%; margin-bottom:8px; }
+.tier p{ color:var(--muted); font-size:.98rem; margin-bottom:14px; }
+.tier ul{ list-style:none; margin:0; padding:0; }
+.tier li{ padding:9px 0; border-top:1px solid var(--line); font-weight:600; font-size:.98rem; }
+@media (max-width:860px){ .tiers{ grid-template-columns:1fr; } .tier + .tier{ border-left:0; border-top:1px solid var(--line); } }
+
+/* ---------- officers ---------- */
+.crew{ list-style:none; margin:28px 0 0; padding:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(16px,3vw,36px); }
+.crew li{ border-top:3px solid var(--black); padding-top:14px; }
+.crew .pic{ display:block; width:100%; aspect-ratio:4/5; object-fit:cover; margin-bottom:14px; background:var(--stone); }
+.crew .pic-open{ display:grid; place-items:center; width:100%; aspect-ratio:4/5; margin-bottom:14px; background:var(--stone); border:2px dashed var(--line); color:var(--muted); font-weight:700; }
+.crew b{ display:block; font-size:1.4rem; font-stretch:106%; font-weight:800; margin-bottom:4px; }
+.crew span{ color:var(--muted); }
+@media (max-width:860px){ .crew{ grid-template-columns:1fr 1fr; } }
+
+/* ---------- forty ---------- */
+.forty{ display:grid; grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr); gap:clamp(32px,6vw,88px); align-items:center; }
+.forty img{ width:100%; max-width:420px; mix-blend-mode:multiply; }
+.forty p{ color:#333; max-width:56ch; }
+.forty .actions{ margin-top:22px; }
+@media (max-width:860px){ .forty{ grid-template-columns:1fr; } .forty img{ max-width:300px; } }
+
+/* ---------- footer ---------- */
+.foot{ background:var(--black); color:#E6E6E6; padding:clamp(56px,7vw,88px) 0 0; }
+.foot-grid{ display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr) minmax(0,.7fr); gap:clamp(28px,4vw,64px); }
+.foot-logo{ display:inline-block; background:#fff; padding:14px 18px; margin-bottom:22px; }
+.foot-logo img{ height:52px; width:auto; }
+.foot h2{ font-size:1.1rem; font-weight:700; margin-bottom:12px; color:#fff; }
+.foot ul{ list-style:none; margin:0; padding:0; }
+.foot li{ padding:6px 0; }
+.foot a{ text-decoration:none; }
+.foot a:hover{ text-decoration:underline; color:#fff; }
+.mail{ font-size:clamp(1.3rem,2.4vw,1.9rem); font-weight:800; font-stretch:106%; color:#fff; text-decoration:underline !important; text-decoration-color:var(--red) !important; text-decoration-thickness:3px !important; }
+.foot-base{ margin-top:clamp(48px,6vw,72px); border-top:1px solid #333; padding:20px 0 26px; font-size:.86rem; color:#9E9E9E; }
+.foot-base .wrap{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 24px; }
+@media (max-width:860px){ .foot-grid{ grid-template-columns:1fr 1fr; } .foot-grid > div:first-child{ grid-column:1 / -1; } }
+
+@media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } .band-k i{ animation:none; } .mosaic img{ transition:none; } }
+@media print{ .util,.head,.hero,.quick,.mosaic,.gal-foot{ display:none; } .sec{ padding:24px 0; } .sec-dark,.foot,.band,.cert{ background:#fff !important; color:#000 !important; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#launches">Skip to the launch schedule</a>
+
+<div class="util">
+  <div class="wrap">
+    <p class="util-next" style="margin:0">Next launch: <b id="util-next">Hearne, Saturday, October 10</b></p>
+    <ul class="util-links">
+      <li><a href="https://www.facebook.com/tripoli.houston/" target="_blank" rel="noopener">Facebook</a></li>
+      <li><a href="https://www.instagram.com/tripolihouston/" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.youtube.com/channel/UCndKmuglFrh2kNqMPsIQ3Hw" target="_blank" rel="noopener">YouTube</a></li>
+      <li><a href="https://www.flickr.com/photos/tripolihouston/albums" target="_blank" rel="noopener">Flickr</a></li>
+      <li><a href="https://tripolihouston.groups.io/g/main" target="_blank" rel="noopener">Groups.io</a></li>
+    </ul>
+  </div>
+</div>
+
+<header class="head" id="head">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="assets/logo.png" alt="Tripoli Houston" width="461" height="150"></a>
+    <ul class="nav" id="nav">
+      <li><a href="#about">About</a></li>
+      <li><a href="#launches">Launches</a></li>
+      <li><a href="#sites">Where we fly</a></li>
+      <li><a href="#photos">Photos</a></li>
+      <li><a href="#fly">Fly with us</a></li>
+      <li><a href="#join">Membership</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="btn btn-red" href="#join">Join the club</a>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+  </div>
+</header>
+
+<div class="notice" id="notice" role="status" hidden></div>
+
+<main id="top">
+
+<section class="hero" id="hero" aria-labelledby="hero-h">
+  <div class="wall" aria-hidden="true">
+    <video poster="assets/poster-a.jpg" autoplay muted loop playsinline preload="metadata"><source src="assets/wall-a.webm" type="video/webm"><source src="assets/wall-a.mp4" type="video/mp4"></video>
+    <video class="lead-clip" poster="assets/poster-b.jpg" autoplay muted loop playsinline preload="metadata"><source src="assets/wall-b.webm" type="video/webm"><source src="assets/wall-b.mp4" type="video/mp4"></video>
+    <video poster="assets/poster-c.jpg" autoplay muted loop playsinline preload="metadata"><source src="assets/wall-c.webm" type="video/webm"><source src="assets/wall-c.mp4" type="video/mp4"></video>
+  </div>
+  <div class="shade"></div>
+  <div class="hero-copy">
+    <div class="wrap">
+      <h1 id="hero-h"><span>Tripoli Houston</span><span>Rocket Club</span></h1>
+      <p class="hero-sub">Model and high power rocket launches every month in Hearne and near Alvin, Texas. The first Tripoli prefecture in Texas, flying since 1985.</p>
+      <div class="actions">
+        <a class="btn btn-red" href="https://forms.gle/rMv7W938cNRw71eG9" target="_blank" rel="noopener">Register for a launch</a>
+        <a class="btn btn-ghost" href="#launches">See the launch schedule</a>
+      </div>
+    </div>
+  </div>
+  <div class="wall-ctrl">
+    <p>Club footage from Hearne and Airfest launches</p>
+    <button class="wall-btn" id="wall-btn" type="button" aria-label="Pause background video">
+      <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+      <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>
+    </button>
+  </div>
+</section>
+
+<section class="band" aria-label="Next launch">
+  <div class="wrap">
+    <p class="band-k" style="margin:0"><i aria-hidden="true"></i><span id="nl-k">Next launch</span></p>
+    <p class="band-what" style="margin:0"><b id="nl-site">Hearne Municipal Airport</b><span id="nl-when">Saturday, October 10, 9 am to 4 pm. Weather permitting.</span></p>
+    <div class="clock" id="nl-clock" role="timer" aria-label="Time until the next launch">
+      <span class="u" id="cd-du"><b id="cd-d">00</b><i>days</i></span>
+      <span class="u"><b id="cd-h">00</b><i>hours</i></span>
+      <span class="u"><b id="cd-m">00</b><i>min</i></span>
+      <span class="u"><b id="cd-s">00</b><i>sec</i></span>
+    </div>
+    <a class="btn btn-white" href="https://forms.gle/rMv7W938cNRw71eG9" target="_blank" rel="noopener">Register</a>
+  </div>
+</section>
+
+<nav class="quick" aria-label="Quick links">
+  <ul>
+    <li><a href="#launches">2026 schedule<small>Dates for both fields</small></a></li>
+    <li><a href="https://www.tripolihouston.com/copy-of-launch-site-rules" target="_blank" rel="noopener">Launch site rules<small>Read before you fly</small></a></li>
+    <li><a href="https://www.tripolihouston.com/file-share" target="_blank" rel="noopener">Flight cards and forms<small>Print before launch day</small></a></li>
+    <li><a href="https://www.tripolihouston.com/copy-of-faq" target="_blank" rel="noopener">Certification<small>L1, L2 and L3 flights</small></a></li>
+    <li><a href="https://www.tripolihouston.com/about-1" target="_blank" rel="noopener">Weather links<small>Check the morning of</small></a></li>
+    <li><a href="https://tripolihouston.groups.io/g/main" target="_blank" rel="noopener">Club updates<small>Launch calls on Groups.io</small></a></li>
+  </ul>
+</nav>
+
+<section class="sec" id="about" aria-labelledby="about-h">
+  <div class="wrap about">
+    <div>
+      <h2 class="h2" id="about-h">The second Tripoli prefecture ever formed, and the first in Texas</h2>
+      <p>Tripoli Houston was chartered on December 10, 1985. Forty years later we still meet every month to fly, from first-timers with a model rocket kit to members pushing the limits of our FAA waiver.</p>
+      <p>We added NAR Section 916 in 2022 and support both the Tripoli Rocketry Association and the National Association of Rocketry. Every newcomer gets a warm welcome. Bring kolaches and it gets warmer.</p>
+      <dl class="facts">
+        <div><dt>Tripoli prefecture</dt><dd>No. 002</dd></div>
+        <div><dt>NAR section</dt><dd>No. 916</dd></div>
+        <div><dt>Chartered</dt><dd>December 10, 1985</dd></div>
+        <div><dt>Highest waiver</dt><dd>17,500 ft</dd></div>
+      </dl>
+    </div>
+    <figure>
+      <img src="assets/about.jpg" alt="A rocket lifting off the pad in a cloud of smoke at Hearne" width="900" height="1125" loading="lazy">
+      <figcaption class="credit">Liftoff at Hearne, September 2026. Photo by Tripoli Houston.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec sec-stone" id="launches" aria-labelledby="sched-h">
+  <div class="wrap">
+    <h2 class="h2" id="sched-h">2026 launch schedule</h2>
+    <p class="lead">Hearne flies the second Saturday of every month. The South Site flies the fourth Saturday, February through August, for members only. Registration for each launch opens one week before.</p>
+    <div class="sched-wrap">
+      <table class="sched" id="sched">
+        <thead><tr><th scope="col">Month</th><th scope="col"><b>Hearne</b>Second Saturday</th><th scope="col"><b>South Site</b>Fourth Saturday, members only</th></tr></thead>
+        <tbody id="sched-body">
+          <tr><th scope="row">January</th><td data-date="2026-01-10"><span class="d">10</span></td><td class="none" data-date="2026-01-24">No launch</td></tr>
+          <tr><th scope="row">February</th><td data-date="2026-02-14"><span class="d strike">14</span><span class="n">Canceled for weather</span></td><td data-date="2026-02-28"><span class="d">28</span><span class="n">Opening day</span></td></tr>
+          <tr><th scope="row">March</th><td data-date="2026-03-14"><span class="d">14</span></td><td data-date="2026-03-28"><span class="d">28</span></td></tr>
+          <tr><th scope="row">April</th><td data-date="2026-04-11"><span class="d">11</span></td><td data-date="2026-04-25"><span class="d strike">25</span><span class="n">Canceled for weather</span></td></tr>
+          <tr><th scope="row">May</th><td data-date="2026-05-09"><span class="d strike">9</span><span class="n">Canceled for weather</span></td><td data-date="2026-05-25"><span class="d">22 to 25</span><span class="n">Texas Shoot Out, Seymour, TX</span></td></tr>
+          <tr><th scope="row">June</th><td data-date="2026-06-13"><span class="d">13</span></td><td data-date="2026-06-27"><span class="d">27</span></td></tr>
+          <tr><th scope="row">July</th><td data-date="2026-07-11"><span class="d">11</span></td><td data-date="2026-07-25"><span class="d">25</span></td></tr>
+          <tr><th scope="row">August</th><td data-date="2026-08-08"><span class="d">8</span></td><td data-date="2026-08-22"><span class="d">22</span></td></tr>
+          <tr><th scope="row">September</th><td data-date="2026-09-12"><span class="d">12</span></td><td data-date="2026-09-27"><span class="d">26 and 27</span><span class="n">High Frontier, Tulsa, OK</span></td></tr>
+          <tr><th scope="row">October</th><td data-date="2026-10-10"><span class="d">10</span></td><td class="none" data-date="2026-10-24">No launch</td></tr>
+          <tr><th scope="row">November</th><td data-date="2026-11-14"><span class="d">14</span></td><td data-date="2026-11-07"><span class="d strike">7</span><span class="n">BSA launch, canceled</span></td></tr>
+          <tr><th scope="row">December</th><td data-date="2026-12-12"><span class="d">12</span><span class="n">Christmas party</span></td><td class="none" data-date="2026-12-26">No launch</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sched-note">Launches run 9 am to 4 pm, weather permitting. Weather calls and changes go out on <a href="https://tripolihouston.groups.io/g/main" target="_blank" rel="noopener">the club's Groups.io page</a>, so join it before you drive out.</p>
+  </div>
+</section>
+
+<section class="sec" id="sites" aria-labelledby="sites-h">
+  <div class="wrap">
+    <h2 class="h2" id="sites-h">Where we fly</h2>
+    <p class="lead">Two fields with two FAA waivers. Hearne is open to every eligible flyer. The South Site is for Tripoli Houston members.</p>
+    <div class="fields">
+      <article class="field">
+        <figure>
+          <img src="assets/hearne.jpg" alt="A rocket leaving the pad in a cloud of smoke at Hearne Municipal Airport" width="1000" height="666" loading="lazy">
+          <div class="ceil"><b>12,500 ft</b><span>waiver, called in monthly</span></div>
+        </figure>
+        <h3>Hearne Municipal Airport</h3>
+        <p class="addr">Crennan Ln, Hearne, TX 77859</p>
+        <dl>
+          <div><dt>When</dt><dd>Second Saturday of every month</dd></div>
+          <div><dt>Who can fly</dt><dd>Any eligible TRA or NAR flyer</dd></div>
+        </dl>
+        <div class="links">
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Hearne+Municipal+Airport+Hearne+TX" target="_blank" rel="noopener">Get directions</a>
+          <a href="https://www.tripolihouston.com/news-updates" target="_blank" rel="noopener">Field maps</a>
+        </div>
+      </article>
+      <article class="field">
+        <figure>
+          <img src="assets/south.jpg" alt="Two rockets leaving the pads in smoke at the South Site" width="549" height="411" loading="lazy">
+          <div class="ceil"><b>17,500 ft</b><span>waiver</span></div>
+        </figure>
+        <h3>South Site</h3>
+        <p class="addr">Near Alvin, TX</p>
+        <dl>
+          <div><dt>When</dt><dd>Fourth Saturday, February through August</dd></div>
+          <div><dt>Who can fly</dt><dd>Tripoli Houston members. Register before you come.</dd></div>
+        </dl>
+        <div class="links">
+          <a href="#join">Become a member</a>
+          <a href="mailto:tripolihouston@gmail.com?subject=South%20Site%20information">Ask about the South Site</a>
+        </div>
+      </article>
+    </div>
+    <div class="day">
+      <h3>On launch day</h3>
+      <ul>
+        <li>Flying runs 9 am to 4 pm.</li>
+        <li>Both fields have restrooms, and hand sanitizer is on hand.</li>
+        <li>It gets hot. Bring water, sunscreen and your own shade.</li>
+        <li>Kids are welcome. They stay in your setup area, and a parent or guardian goes out with them to fly.</li>
+        <li>Read the <a href="https://www.tripolihouston.com/copy-of-launch-site-rules" target="_blank" rel="noopener">launch site rules</a> before your first visit.</li>
+        <li>Check <a href="https://www.tripolihouston.com/about-1" target="_blank" rel="noopener">the weather links</a> the morning of.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-dark" id="photos" aria-labelledby="photos-h">
+  <div class="wrap">
+    <h2 class="h2" id="photos-h">From the field</h2>
+    <p class="lead">This season at Hearne, the South Site, the Texas Shoot Out and High Frontier, from the club's archive of more than 10,000 photos.</p>
+    <div class="mosaic">
+      <a class="m-big" href="https://www.flickr.com/photos/tripolihouston/albums/72177720335877788" target="_blank" rel="noopener"><img src="assets/g1.jpg" alt="A rocket leaving pad 21 on a column of smoke" loading="lazy"><span class="cap">High Frontier, Tulsa, September 2026</span></a>
+      <a class="m-tall" href="https://www.flickr.com/photos/tripolihouston/albums/72177720333849101" target="_blank" rel="noopener"><img src="assets/g2.jpg" alt="A high power rocket climbing off the pad" loading="lazy"><span class="cap">Texas Shoot Out, Seymour, May 2026</span></a>
+      <a href="https://www.flickr.com/photos/tripolihouston/albums/72177720335877788" target="_blank" rel="noopener"><img src="assets/g3.jpg" alt="Two rockets launching side by side" loading="lazy"><span class="cap">Drag race, High Frontier</span></a>
+      <a href="https://www.flickr.com/photos/tripolihouston/albums/72177720335877788" target="_blank" rel="noopener"><img src="assets/g4.jpg" alt="An orange and white rocket in flight against blue sky" loading="lazy"><span class="cap">High Frontier, September 2026</span></a>
+      <a class="m-tall" href="https://www.flickr.com/photos/tripolihouston/albums/72177720335594546" target="_blank" rel="noopener"><img src="assets/g5.jpg" alt="A red rocket lifting off the rail at Hearne" loading="lazy"><span class="cap">Hearne, September 2026</span></a>
+      <a href="https://www.flickr.com/photos/tripolihouston/albums/72177720335249517" target="_blank" rel="noopener"><img src="assets/g6.jpg" alt="A rocket descending under a colorful parachute" loading="lazy"><span class="cap">Recovery, South Site, August 2026</span></a>
+      <a href="https://www.flickr.com/photos/tripolihouston/albums/72177720335877788" target="_blank" rel="noopener"><img src="assets/g7.jpg" alt="A flyer watching through a camera on a tripod at the flight line" loading="lazy"><span class="cap">On the flight line, High Frontier</span></a>
+      <a href="https://www.flickr.com/photos/tripolihouston/albums/72177720335877788" target="_blank" rel="noopener"><img src="assets/g8.jpg" alt="The launch control officer in a yellow LCO vest watching the pads" loading="lazy"><span class="cap">Launch control, High Frontier</span></a>
+      <a class="m-wide" href="https://www.flickr.com/photos/tripolihouston/albums/72177720335594546" target="_blank" rel="noopener"><img src="assets/g9.jpg" alt="A two-piece rocket descending under its parachute" loading="lazy"><span class="cap">Recovery, Hearne, September 2026</span></a>
+      <a href="https://www.flickr.com/photos/tripolihouston/albums/72177720335877788" target="_blank" rel="noopener"><img src="assets/g10.jpg" alt="A rocket lifting off from pad 22" loading="lazy"><span class="cap">High Frontier, September 2026</span></a>
+    </div>
+    <div class="gal-foot">
+      <p>Photos and video by Tripoli Houston. Select a photo to open its album on Flickr.</p>
+      <div class="actions">
+        <a class="btn btn-ghost" href="https://www.flickr.com/photos/tripolihouston/albums" target="_blank" rel="noopener">Browse every album</a>
+        <a class="btn btn-ghost" href="https://www.youtube.com/channel/UCndKmuglFrh2kNqMPsIQ3Hw" target="_blank" rel="noopener">Watch on YouTube</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="fly" aria-labelledby="fly-h">
+  <div class="wrap on-light">
+    <h2 class="h2" id="fly-h">Fly with us</h2>
+    <p class="lead">Before your rocket goes on the rail, take care of these three things.</p>
+    <ol class="steps">
+      <li>
+        <h3>Be a TRA or NAR member</h3>
+        <p>Join the Tripoli Rocketry Association or the National Association of Rocketry. Under 18, or not a member? Have a signed TRA waiver of release on file. We fly under TRA insurance.</p>
+        <div class="links"><a href="https://www.tripoli.org/content.aspx?page_id=60&amp;club_id=795696" target="_blank" rel="noopener">Join TRA</a><a href="https://www.nar.org/content.aspx?page_id=60&amp;club_id=114127" target="_blank" rel="noopener">Join NAR</a></div>
+      </li>
+      <li>
+        <h3>Register for the launch</h3>
+        <p>Registration for each monthly launch opens one week before launch day. South Site launches always need registration.</p>
+        <div class="links"><a href="https://forms.gle/rMv7W938cNRw71eG9" target="_blank" rel="noopener">Open registration</a></div>
+      </li>
+      <li>
+        <h3>Bring your flight card</h3>
+        <p>Print your flight card and any member forms before you head out, so you can fly as soon as you get to the field.</p>
+        <div class="links"><a href="https://www.tripolihouston.com/file-share" target="_blank" rel="noopener">Flight cards and forms</a></div>
+      </li>
+    </ol>
+    <div class="cert">
+      <figure style="margin:0"><img src="assets/off-randy.jpg" alt="Randy Marek, Tripoli Houston's Prefect, at a launch" width="640" height="853" loading="lazy" style="object-position:50% 35%"></figure>
+      <div class="cert-body">
+        <h3>Going for your high power certification?</h3>
+        <p>Talk to our Prefect, Randy Marek, about certification flights or any rocket project you're planning.</p>
+        <p>Cert flights come with a tradition: bring kolaches. It's a Tripoli Houston thing.</p>
+        <div class="actions" style="margin-top:22px">
+          <a class="btn btn-red" href="mailto:randym713@gmail.com?subject=TH%20Cert%20flight">Email the Prefect</a>
+          <a class="btn btn-ghost" href="https://www.tripolihouston.com/copy-of-faq" target="_blank" rel="noopener">Certification info</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-stone" id="join" aria-labelledby="join-h">
+  <div class="wrap on-light">
+    <h2 class="h2" id="join-h">Become a member</h2>
+    <p class="lead">Memberships run for the calendar year and help the club plan its launches and expenses for the season.</p>
+    <ul class="perks">
+      <li>Members-only South Site launches</li>
+      <li>Full club privileges</li>
+      <li>Discounts on launch fees and club merch</li>
+    </ul>
+    <div class="tiers">
+      <div class="tier"><h3>Individual</h3><p>For one flyer.</p><ul><li>Membership</li><li>Membership with launch fees</li></ul></div>
+      <div class="tier"><h3>Family</h3><p>For your whole household.</p><ul><li>Membership</li><li>Membership with launch fees</li></ul></div>
+      <div class="tier"><h3>Club, college or team</h3><p>Needs a team leader at the launch, or an assigned team leader for the South Site.</p><ul><li>Team membership</li></ul></div>
+    </div>
+    <div class="actions">
+      <a class="btn btn-red" href="https://www.zeffy.com/en-US/ticketing/tripoli-houston-rocket-club-llcs-memberships" target="_blank" rel="noopener">Choose a membership</a>
+      <a class="btn btn-ghost" href="https://www.zeffy.com/en-US/ticketing/tripoli-houston-rocket-club-llcs-shop" target="_blank" rel="noopener">Pay a launch fee</a>
+    </div>
+    <p class="credit" style="margin-top:14px">Registration and payment are handled securely through Zeffy.</p>
+  </div>
+</section>
+
+<section class="sec" id="crew" aria-labelledby="crew-h">
+  <div class="wrap">
+    <h2 class="h2" id="crew-h">Club officers</h2>
+    <ul class="crew" id="crew-list">
+      <li><img class="pic" src="assets/off-jimmy.jpg" alt="Jimmy Higham at a launch" loading="lazy"><b>Jimmy Higham</b><span>President, TRA 13951 L3</span></li>
+      <li><img class="pic" src="assets/off-randy.jpg" alt="Randy Marek at a launch" loading="lazy"><b>Randy Marek</b><span>Vice President and Prefect</span></li>
+      <li><img class="pic" src="assets/off-alan.jpg" alt="Alan White" loading="lazy"><b>Alan White</b><span>Secretary</span></li>
+      <li><span class="pic-open" aria-hidden="true">Your photo here</span><b>Open</b><span>Treasurer. Interested? <a href="mailto:tripolihouston@gmail.com?subject=Treasurer%20position">Let us know</a>.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec sec-stone" id="forty" aria-labelledby="forty-h">
+  <div class="wrap forty on-light">
+    <img src="assets/forty.jpg" alt="Tripoli Houston 40th anniversary logo, established 1985" width="511" height="520" loading="lazy">
+    <div>
+      <h2 class="h2" id="forty-h">Forty years of flying over Texas</h2>
+      <p>Tripoli Houston is a nonprofit, run by the members who show up to fly. Donations keep the fields open, and if your company matches gifts to nonprofits, please add us.</p>
+      <p>The 40th anniversary gear has arrived, too.</p>
+      <div class="actions">
+        <a class="btn btn-red" href="https://www.zeffy.com/en-US/donation-form/tripoli-houston-rocket-club-annual-fundraiser--2025" target="_blank" rel="noopener">Donate</a>
+        <a class="btn btn-ghost" href="https://www.zeffy.com/en-US/ticketing/tripoli-houston-rocket-club-llcs-shop-2" target="_blank" rel="noopener">Shop anniversary gear</a>
+        <a class="btn btn-ghost" href="https://www.paypal.com/donate/?hosted_button_id=8XJNP2MHF4EY4" target="_blank" rel="noopener">Donate with PayPal</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot" id="contact">
+  <div class="wrap foot-grid">
+    <div>
+      <a class="foot-logo" href="#top"><img src="assets/logo.png" alt="Tripoli Houston" width="461" height="150"></a>
+      <h2>Get in touch</h2>
+      <p style="color:#BDBDBD">Questions about the club, a launch, or joining? We're happy to help.</p>
+      <a class="mail" href="mailto:tripolihouston@gmail.com?subject=Tripoli%20Houston%20launch%20information">tripolihouston@gmail.com</a>
+      <p style="margin-top:14px">Office <a href="tel:+12818465222">281-846-5222</a></p>
+    </div>
+    <div>
+      <h2>Follow the launches</h2>
+      <ul>
+        <li><a href="https://www.flickr.com/photos/tripolihouston/albums" target="_blank" rel="noopener">Photo gallery</a></li>
+        <li><a href="https://www.youtube.com/channel/UCndKmuglFrh2kNqMPsIQ3Hw" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="https://www.facebook.com/tripoli.houston/" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="https://www.instagram.com/tripolihouston/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://twitter.com/Tripolihouston" target="_blank" rel="noopener">X</a></li>
+        <li><a href="https://www.reddit.com/r/TripoliHouston002/" target="_blank" rel="noopener">Reddit</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Rocketry associations</h2>
+      <ul>
+        <li><a href="https://www.tripoli.org/" target="_blank" rel="noopener">Tripoli Rocketry Association</a></li>
+        <li><a href="https://www.nar.org/" target="_blank" rel="noopener">National Association of Rocketry</a></li>
+        <li><a href="https://tripolihouston.groups.io/g/main" target="_blank" rel="noopener">Tripoli Houston on Groups.io</a></li>
+        <li><a href="https://www.nfggive.org/guidestar/83-3144089" target="_blank" rel="noopener">GuideStar profile</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-base">
+    <div class="wrap">
+      <span>© 2026 Tripoli Houston Rocket Club. Tripoli prefecture 002, NAR Section 916.</span>
+      <span>Photos and video: Tripoli Houston on Flickr. Website designed and built by Alex Daniel Manoj, <a href="mailto:alexdmanoj@gmail.com">alexdmanoj@gmail.com</a>.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+
+  /* background video: autoplay, with a pause control */
+  const hero = $('hero'), vids = [...document.querySelectorAll('.wall video')], btn = $('wall-btn');
+  const small = matchMedia('(max-width: 760px)');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let paused = reduce;
+  function sync(){
+    vids.forEach(v => {
+      const visible = !small.matches || v.classList.contains('lead-clip');
+      if (paused || !visible) v.pause(); else { v.muted = true; const p = v.play(); if (p) p.catch(() => {}); }
+    });
+    hero.classList.toggle('paused', paused);
+    btn.setAttribute('aria-label', paused ? 'Play background video' : 'Pause background video');
+  }
+  btn.addEventListener('click', () => { paused = !paused; sync(); });
+  small.addEventListener('change', sync);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) sync(); });
+  sync();
+
+  /* ================================================================
+     CLUB DATA
+     The schedule, announcement and officers come from the club's
+     Google Sheet. Paste the Sheet's ID between the quotes below.
+     (The ID is the long code in the Sheet's web address, between
+     /d/ and /edit.) Leave it empty to use the built-in data.
+     ================================================================ */
+  const SHEET_ID = '1nGjCnFtKDaMpFIQ0Y8-nuJ4RxPhGPE-U0T6VrsetY9Q';
+
+  const BUILTIN = {
+    schedule: [
+      ['2026-01-10','Hearne','10','Scheduled','','Yes'],
+      ['2026-01-24','South Site','','No launch','',''],
+      ['2026-02-14','Hearne','14','Canceled','Canceled for weather',''],
+      ['2026-02-28','South Site','28','Scheduled','Opening day','Yes'],
+      ['2026-03-14','Hearne','14','Scheduled','','Yes'],
+      ['2026-03-28','South Site','28','Scheduled','','Yes'],
+      ['2026-04-11','Hearne','11','Scheduled','','Yes'],
+      ['2026-04-25','South Site','25','Canceled','Canceled for weather',''],
+      ['2026-05-09','Hearne','9','Canceled','Canceled for weather',''],
+      ['2026-05-25','South Site','22 to 25','Scheduled','Texas Shoot Out, Seymour, TX','No'],
+      ['2026-06-13','Hearne','13','Scheduled','','Yes'],
+      ['2026-06-27','South Site','27','Scheduled','','Yes'],
+      ['2026-07-11','Hearne','11','Scheduled','','Yes'],
+      ['2026-07-25','South Site','25','Scheduled','','Yes'],
+      ['2026-08-08','Hearne','8','Scheduled','','Yes'],
+      ['2026-08-22','South Site','22','Scheduled','','Yes'],
+      ['2026-09-12','Hearne','12','Scheduled','','Yes'],
+      ['2026-09-27','South Site','26 and 27','Scheduled','High Frontier, Tulsa, OK','No'],
+      ['2026-10-10','Hearne','10','Scheduled','','Yes'],
+      ['2026-10-24','South Site','','No launch','',''],
+      ['2026-11-14','Hearne','14','Scheduled','','Yes'],
+      ['2026-11-07','South Site','7','Canceled','BSA launch, canceled',''],
+      ['2026-12-12','Hearne','12','Scheduled','Christmas party','Yes'],
+      ['2026-12-26','South Site','','No launch','','']
+    ],
+    notice: [],
+    officers: null
+  };
+
+  const SITE_NAMES = { 'hearne':'Hearne Municipal Airport', 'south site':'South Site, members only' };
+  const dayFmt = new Intl.DateTimeFormat('en-US', { weekday:'long', month:'long', day:'numeric', timeZone:'America/Chicago' });
+  const monthFmt = new Intl.DateTimeFormat('en-US', { month:'long', timeZone:'UTC' });
+  const pad = n => String(n).padStart(2, '0');
+  const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const yes = v => /^(y|yes|true|1|x)$/i.test(String(v || '').trim());
+
+  /* "2026-10-10", "10/10/2026" or "Oct 10, 2026" -> [y, m, d] */
+  function parseDay(v){
+    v = String(v || '').trim(); let m;
+    if ((m = v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))) return [+m[1], +m[2], +m[3]];
+    if ((m = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/))) return [+m[3], +m[1], +m[2]];
+    const t = Date.parse(v); if (!isNaN(t)){ const d = new Date(t); return [d.getFullYear(), d.getMonth()+1, d.getDate()]; }
+    return null;
+  }
+  /* a wall-clock time in Houston -> timestamp (handles daylight saving) */
+  function houston(y, m, d, hh){
+    let t = Date.UTC(y, m-1, d, hh + 6);
+    const h = +new Intl.DateTimeFormat('en-US', { hour:'numeric', hourCycle:'h23', timeZone:'America/Chicago' }).format(t);
+    return t - (h - hh) * 3600000;
+  }
+  function toEvents(rows){
+    return rows.map(r => {
+      const day = parseDay(r[0]); if (!day) return null;
+      const col = String(r[1] || '').trim(); if (!col) return null;
+      const [y, m, d] = day;
+      return { y, m, d, iso:`${y}-${pad(m)}-${pad(d)}`, col, show:String(r[2] || '').trim() || String(d),
+        status:String(r[3] || 'Scheduled').trim(), note:String(r[4] || '').trim(), countdown:yes(r[5]),
+        start:houston(y, m, d, 9), end:houston(y, m, d, 16) };
+    }).filter(Boolean).sort((a, b) => a.start - b.start);
+  }
+
+  let EVENTS = toEvents(BUILTIN.schedule);
+  const nextLaunch = now => EVENTS.find(e => e.countdown && /^sched/i.test(e.status) && e.end > now);
+
+  function tick(){
+    const now = Date.now(), l = nextLaunch(now);
+    if (!l){ $('nl-k').textContent = 'Next launch'; $('nl-site').textContent = 'New dates coming soon';
+      $('nl-when').textContent = 'The next season will be posted here and on Groups.io.'; $('nl-clock').hidden = true;
+      $('util-next').textContent = 'dates coming soon'; return; }
+    $('nl-clock').hidden = false;
+    const live = now >= l.start;
+    let diff = Math.max(0, Math.floor((live ? now - l.start : l.start - now) / 1000));
+    const d = Math.floor(diff / 86400); diff -= d * 86400;
+    const h = Math.floor(diff / 3600); diff -= h * 3600;
+    const m = Math.floor(diff / 60), sec = diff - m * 60;
+    const when = dayFmt.format(l.start);
+    $('nl-k').textContent = live ? 'Flying right now' : 'Next launch';
+    $('nl-site').textContent = SITE_NAMES[l.col.toLowerCase()] || l.col;
+    $('nl-when').textContent = `${when}, 9 am to 4 pm. Weather permitting.${l.note ? ' ' + l.note + '.' : ''}`;
+    $('util-next').textContent = `${l.col}, ${when}`;
+    $('cd-du').hidden = d === 0;
+    $('cd-d').textContent = pad(d); $('cd-h').textContent = pad(h); $('cd-m').textContent = pad(m); $('cd-s').textContent = pad(sec);
+  }
+
+  function renderSchedule(){
+    const now = Date.now(), nxt = nextLaunch(now);
+    const months = new Map();
+    EVENTS.forEach(e => { const k = `${e.y}-${pad(e.m)}`; if (!months.has(k)) months.set(k, {}); months.get(k)[/^south/i.test(e.col) ? 'south' : 'hearne'] = e; });
+    const cell = (e, label) => {
+      if (!e || /^no/i.test(e.status)) return `<td class="none${e && e.end < now ? ' is-past' : ''}" data-label="${label}">No launch</td>`;
+      const canceled = /^cancel/i.test(e.status), past = e.end < now, isNext = nxt === e;
+      return `<td class="${past ? 'is-past' : ''}${isNext ? ' is-next' : ''}" data-label="${label}"><span class="d${canceled ? ' strike' : ''}">${esc(e.show)}</span>${isNext ? '<span class="tag">Next launch</span>' : ''}${e.note ? `<span class="n">${esc(e.note)}</span>` : (canceled ? '<span class="n">Canceled</span>' : '')}</td>`;
+    };
+    $('sched-body').innerHTML = [...months.keys()].sort().map(k => {
+      const row = months.get(k), any = row.hearne || row.south;
+      const allPast = [row.hearne, row.south].filter(Boolean).every(e => e.end < now);
+      return `<tr class="${allPast ? 'is-past' : ''}"><th scope="row">${monthFmt.format(Date.UTC(any.y, any.m - 1, 1))}</th>${cell(row.hearne, 'Hearne')}${cell(row.south, 'South Site')}</tr>`;
+    }).join('');
+    const years = [...new Set(EVENTS.map(e => e.y))];
+    $('sched-h').textContent = `${years.length ? years.join(' to ') : ''} launch schedule`.trim();
+  }
+
+  function renderNotice(rows){
+    const live = rows.filter(r => String(r[0] || '').trim() && yes(r[2] ?? 'yes'));
+    const box = $('notice');
+    if (!live.length){ box.hidden = true; return; }
+    box.innerHTML = '<div class="wrap">' + live.map(r => {
+      const link = String(r[1] || '').trim();
+      return `<p>${esc(r[0])}${/^https?:\/\//.test(link) ? ` <a href="${esc(link)}" target="_blank" rel="noopener">Details</a>` : ''}</p>`;
+    }).join('') + '</div>';
+    box.hidden = false;
+  }
+
+  function renderOfficers(rows){
+    const list = $('crew-list');
+    const built = {}; list.querySelectorAll('li').forEach(li => { const b = li.querySelector('b'), i = li.querySelector('img'); if (b && i) built[b.textContent.trim().toLowerCase()] = i.getAttribute('src'); });
+    const valid = rows.filter(r => String(r[0] || '').trim() || String(r[1] || '').trim());
+    if (!valid.length) return;
+    list.innerHTML = valid.map(r => {
+      const name = String(r[0] || '').trim() || 'Open', role = String(r[1] || '').trim(), photo = String(r[2] || '').trim();
+      const src = /^https?:\/\//.test(photo) ? photo : built[name.toLowerCase()];
+      const pic = src ? `<img class="pic" src="${esc(src)}" alt="${esc(name)}" loading="lazy">` : `<span class="pic-open" aria-hidden="true">${/^open$/i.test(name) ? 'Your photo here' : 'Photo coming soon'}</span>`;
+      return `<li>${pic}<b>${esc(name)}</b><span>${esc(role)}</span></li>`;
+    }).join('');
+  }
+
+  /* tiny CSV reader for the Sheet's export */
+  function csv(text){
+    const rows = []; let row = [], f = '', q = false;
+    for (let i = 0; i < text.length; i++){
+      const c = text[i];
+      if (q){ if (c === '"'){ if (text[i+1] === '"'){ f += '"'; i++; } else q = false; } else f += c; }
+      else if (c === '"') q = true;
+      else if (c === ','){ row.push(f); f = ''; }
+      else if (c === '\n'){ row.push(f); rows.push(row); row = []; f = ''; }
+      else if (c !== '\r') f += c;
+    }
+    if (f || row.length){ row.push(f); rows.push(row); }
+    return rows.slice(1); /* drop the header row */
+  }
+  async function tab(name){
+    const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 7000);
+    try {
+      const r = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}`, { signal:ctl.signal });
+      if (!r.ok) return null;
+      const t = await r.text();
+      if (/^\s*</.test(t)) return null;  /* got a sign-in page: the Sheet isn't shared publicly */
+      return csv(t);
+    } catch { return null; } finally { clearTimeout(timer); }
+  }
+
+  renderSchedule(); tick(); setInterval(tick, 1000);
+
+  if (SHEET_ID && !SHEET_ID.startsWith('%%')){
+    tab('Schedule').then(rows => {
+      if (!rows) return;
+      const ev = toEvents(rows);
+      if (ev.length){ EVENTS = ev; renderSchedule(); tick(); }
+    });
+    tab('Announcements').then(rows => rows && renderNotice(rows));
+    tab('Officers').then(rows => rows && renderOfficers(rows));
+  }
+
+  /* small-screen menu */
+  const head = $('head'), mb = $('menu-btn');
+  mb.addEventListener('click', () => { const o = head.classList.toggle('open'); mb.setAttribute('aria-expanded', o); mb.textContent = o ? 'Close' : 'Menu'; });
+  document.querySelectorAll('#nav a').forEach(a => a.addEventListener('click', () => { head.classList.remove('open'); mb.setAttribute('aria-expanded', 'false'); mb.textContent = 'Menu'; }));
+})();
+</script>
+</body>
+</html>
